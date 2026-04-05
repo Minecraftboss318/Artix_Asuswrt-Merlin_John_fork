@@ -1,0 +1,48 @@
+diff -ru a/release/src/router/busybox/scripts/kconfig/lxdialog/check-lxdialog.sh b/release/src/router/busybox/scripts/kconfig/lxdialog/check-lxdialog.sh
+--- a/release/src/router/busybox/scripts/kconfig/lxdialog/check-lxdialog.sh	2021-12-19 21:05:06.000000000 -0500
++++ b/release/src/router/busybox/scripts/kconfig/lxdialog/check-lxdialog.sh	2026-04-01 03:53:06.499260700 -0400
+@@ -47,7 +47,7 @@
+ check() {
+         $cc -x c - -o $tmp 2>/dev/null <<'EOF'
+ #include CURSES_LOC
+-main() {}
++int main() {}
+ EOF
+ 	if [ $? != 0 ]; then
+ 	    echo " *** Unable to find the ncurses libraries or the"       1>&2
+diff -ru a/release/src/router/config/Makefile b/release/src/router/config/Makefile
+--- a/release/src/router/config/Makefile	2021-12-19 21:05:06.000000000 -0500
++++ b/release/src/router/config/Makefile	2026-04-01 04:07:37.139260700 -0400
+@@ -101,7 +101,7 @@
+ .PHONY: ncurses
+ 
+ ncurses:
+-	@echo "main() {}" > lxtemp.c
++	@echo "int main() {}" > lxtemp.c
+ 	@if $(HOSTCC) lxtemp.c $(LIBS) ; then \
+ 		rm -f lxtemp.c a.out; \
+ 	else \
+diff -ru a/release/src-rt/linux/linux-2.6/scripts/kconfig/lxdialog/check-lxdialog.sh b/release/src-rt/linux/linux-2.6/scripts/kconfig/lxdialog/check-lxdialog.sh
+--- a/release/src-rt/linux/linux-2.6/scripts/kconfig/lxdialog/check-lxdialog.sh	2021-12-19 21:05:06.000000000 -0500
++++ b/release/src-rt/linux/linux-2.6/scripts/kconfig/lxdialog/check-lxdialog.sh	2026-04-01 03:32:36.759260200 -0400
+@@ -36,7 +36,7 @@
+ 
+ # Check if we can link to ncurses
+ check() {
+-	echo "main() {}" | $cc -xc - -o $tmp 2> /dev/null
++	echo "int main() {}" | $cc -xc - -o $tmp 2> /dev/null
+ 	if [ $? != 0 ]; then
+ 		echo " *** Unable to find the ncurses libraries."          1>&2
+ 		echo " *** make menuconfig require the ncurses libraries"  1>&2
+diff -ru a/release/src-rt-6.x.4708/linux/linux-2.6.36/scripts/kconfig/lxdialog/check-lxdialog.sh b/release/src-rt-6.x.4708/linux/linux-2.6.36/scripts/kconfig/lxdialog/check-lxdialog.sh
+--- a/release/src-rt-6.x.4708/linux/linux-2.6.36/scripts/kconfig/lxdialog/check-lxdialog.sh	2021-12-19 21:05:06.000000000 -0500
++++ b/release/src-rt-6.x.4708/linux/linux-2.6.36/scripts/kconfig/lxdialog/check-lxdialog.sh	2026-04-01 03:45:48.043259900 -0400
+@@ -38,7 +38,7 @@
+ check() {
+         $cc -xc - -o $tmp 2>/dev/null <<'EOF'
+ #include CURSES_LOC
+-main() {}
++int main() {}
+ EOF
+ 	if [ $? != 0 ]; then
+ 	    echo " *** Unable to find the ncurses libraries or the"       1>&2

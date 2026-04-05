@@ -1,0 +1,11 @@
+--- Makefile.orig	2026-04-04 19:53:18.774198900 -0400
++++ Makefile	2026-04-04 14:49:33.306109300 -0400
+@@ -16,7 +16,7 @@
+ all:	$(PLUGINS)
+ 
+ %.so: %.c
+-	$(CC) -o $@ $(LDFLAGS) $(CFLAGS) $^ $(LDADD)
++	$(CC) -o $@ $(LDFLAGS) $(CFLAGS) -std=gnu89 $^ $(LDADD)
+ 
+ LIBDIR	?= $(DESTDIR)$(prefix)/lib/pptpd
+ 

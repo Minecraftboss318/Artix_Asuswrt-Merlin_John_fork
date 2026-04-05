@@ -1,5 +1,5 @@
---- mksquashfs.c	2020-07-04 14:45:30.816512000 +0200
-+++ mksquashfs.c_mod	2020-07-04 20:09:27.782286000 +0200
+--- mksquashfs.c	2026-04-04 19:47:12.880045000 -0400
++++ mksquashfs.c_mod	2026-04-04 15:31:13.694107800 -0400
 @@ -31,6 +31,7 @@
  #include <stdio.h>
  #include <sys/types.h>
@@ -8,7 +8,16 @@
  #include <fcntl.h>
  #include <errno.h>
  #include <dirent.h>
-@@ -88,7 +89,8 @@
+@@ -54,6 +55,8 @@
+ #include "global.h"
+ #include "sort.h"
+ 
++int dir_scan2(squashfs_inode *inode, struct dir_info *dir_info);
++
+ #ifdef SQUASHFS_TRACE
+ #define TRACE(s, args...)	do { \
+ 					printf("mksquashfs: "s, ## args); \
+@@ -88,7 +91,8 @@
  /* filesystem flags for building */
  int duplicate_checking = 1, noF = 0, no_fragments = 0, always_use_fragments = 0;
  int noI = 0, noD = 0, check_data = 0;
@@ -18,3 +27,21 @@
  long long global_uid = -1, global_gid = -1;
  
  /* superblock attributes */
+@@ -285,7 +289,7 @@
+ }
+ 
+ 
+-void sighandler()
++void sighandler(int i)
+ {
+ 	if(interrupted == 1)
+ 		restorefs();
+@@ -297,7 +301,7 @@
+ }
+ 
+ 
+-void sighandler2()
++void sighandler2(int i)
+ {
+ 	EXIT_MKSQUASHFS();
+ }

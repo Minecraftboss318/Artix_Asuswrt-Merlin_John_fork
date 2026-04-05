@@ -28,6 +28,12 @@ patch -i $ASUSWRT_PATCHES_DIR/mksquashfs.c.patch $ASUSWRT_REPO_DIR/release/src-r
 ## needed for autoconf2.70
 patch -i $ASUSWRT_PATCHES_DIR/libxml2_configure.in.patch $ASUSWRT_REPO_DIR/release/src/router/libxml2/configure.in
 
+## needed for ncurses check-lxdialog
+patch -p2 -d$ASUSWRT_REPO_DIR/release < $ASUSWRT_PATCHES_DIR/ncurses-lxdialog.patch
+
+## pptpd needs gnu89 to work
+patch -i $ASUSWRT_PATCHES_DIR/accel-pptpd.patch $ASUSWRT_REPO_DIR/release/src/router/accel-pptpd/pptpd-1.3.3/plugins/Makefile
+
 #cd release/src-rt && make rt-n16     ## for rt-n16  do not start with rt-n66u from src-rt!
 cd release/src-rt-6.x && make rt-ac66u       ## for rt-ac66u 
 #cd release/src-rt-6.x && make rt-n66u       ## for rt-n66u 

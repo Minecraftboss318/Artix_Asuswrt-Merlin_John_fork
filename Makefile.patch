@@ -1,5 +1,5 @@
---- Makefile.orig	2021-02-05 16:59:51.300000000 +0100
-+++ Makefile	2021-02-08 17:42:06.590000000 +0100
+--- Makefile.orig	2026-04-04 20:06:56.494594000 -0400
++++ Makefile	2026-04-04 15:31:56.410107900 -0400
 @@ -96,7 +96,7 @@
  #
  #
@@ -9,7 +9,7 @@
  
  #
  # standard packages
-@@ -1432,6 +1432,8 @@
+@@ -1440,6 +1440,8 @@
  		-DOPENSSL_INCLUDE_DIR=$(TOP)/openssl-1.1/include \
  		-DOPENSSL_CRYPTO_LIBRARY=$(TOP)/openssl-1.1/libcrypto.so \
  		-DOPENSSL_SSL_LIBRARY=$(TOP)/openssl-1.1/libssl.so \
@@ -18,7 +18,7 @@
  		-DLIBYAML_DIR=$(TOP)/libyaml \
  		-DLIBYAML_INCLUDE_DIR=$(TOP)/libyaml/include \
  		-DLIBYAML_LIBRARY=$(TOP)/libyaml/src/.libs/libyaml.a \
-@@ -1589,7 +1591,7 @@
+@@ -1617,7 +1619,7 @@
  
  libnfnetlink/stamp-h1:
  # tomatoraf.com, Victek
@@ -27,7 +27,7 @@
  		CFLAGS="-Os -Wall $(EXTRACFLAGS) -ffunction-sections -fdata-sections" \
  		LDFLAGS="-ffunction-sections -fdata-sections -Wl,--gc-sections" \
  		$(CONFIGURE) --prefix=/usr --enable-shared --enable-static
-@@ -1851,6 +1853,7 @@
+@@ -1879,6 +1881,7 @@
  
  libdaemon: libdaemon/stamp-h1
  	$(MAKE) -C $@ && $(MAKE) $@-stage
@@ -35,7 +35,7 @@
  
  libdaemon-install: libdaemon
  	install -D libdaemon/libdaemon/.libs/libdaemon.so.0.5.0 $(INSTALLDIR)/libdaemon/usr/lib/libdaemon.so.0.5.0
-@@ -1933,7 +1936,7 @@
+@@ -1961,7 +1964,7 @@
  
  radvd/stamp-h1:
  	cd radvd && autoreconf -fi && \
@@ -44,7 +44,7 @@
  	LDFLAGS="-ffunction-sections -fdata-sections -Wl,--gc-sections $(EXTRALDFLAGS)" \
  	$(CONFIGURE) --prefix="" --disable-dependency-tracking $(if $(RTCONFIG_BCMARM),,--without-stack-protector) \
  	DAEMON_CFLAGS="-I$(TOP)/libdaemon" \
-@@ -2063,7 +2066,7 @@
+@@ -2091,7 +2094,7 @@
  	$(MAKE) -C accel-pptpd server_install
  
  pptpd/stamp-h1:
@@ -53,7 +53,7 @@
  	touch $@
  
  pptpd: pptpd/stamp-h1
-@@ -2884,7 +2887,7 @@
+@@ -2912,7 +2915,7 @@
  
  openpam/Makefile:
  	( cd openpam && ./autogen.sh && \
@@ -62,7 +62,7 @@
  		$(CONFIGURE) --prefix=/usr --bindir=/usr/sbin --libdir=/usr/lib \
  		--without-doc --with-pam-unix \
  	)
-@@ -3103,7 +3106,7 @@
+@@ -3131,7 +3134,7 @@
  	@rm -f pcre-8.31/stamp-h1
  
  libxml2/stamp-h1:
@@ -71,16 +71,16 @@
  	CC=$(CC) AR=$(AR) RANLIB=$(RANLIB) LD=$(LD) CFLAGS="-Os -Wall $(EXTRACFLAGS)" \
  	./$(CONFIGURE) --prefix=/usr --without-python --disable-dependency-tracking
  	touch $@
-@@ -3183,7 +3186,7 @@
+@@ -3210,7 +3213,7 @@
+ curl: curl/Makefile
  	@$(MAKE) -C $@ $(PARALLEL_BUILD)
  
- curl/Makefile: curl/configure
--	@cd curl && CC=$(CC) \
-+	@cd curl && ./buildconf && CC=$(CC) \
+-curl/Makefile: curl/configure
++curl/Makefile:
+ 	@cd curl && CC=$(CC) \
  	CFLAGS="-Os -Wall -ffunction-sections -fdata-sections" \
  	./$(CONFIGURE) --prefix=/usr --bindir=/usr/sbin --libdir=/usr/lib \
- 	--enable-http --with-ssl=$(TOP)/openssl \
-@@ -3636,10 +3639,10 @@
+@@ -3687,10 +3690,10 @@
  
  ipset-7/Makefile: ipset-7/configure
  	cd ipset-7 && \
@@ -94,12 +94,3 @@
  	$(CONFIGURE) --prefix=/usr \
  		--with-kmod=no --with-kbuild=$(LINUXDIR)
  
-@@ -3697,7 +3700,7 @@
- nano/Makefile:
- 	cd nano && \
- 	autoreconf -i -f && $(CONFIGURE) --prefix=$(INSTALLDIR)/nano/usr --sysconfdir=/jffs/configs \
--	CFLAGS="$(EXTRACFLAGS) -Os -I$(TOP)/ncurses/include -ffunction-sections -fdata-sections" \
-+	CFLAGS="$(EXTRACFLAGS) -Os -I$(TOP)/ncurses/include -ffunction-sections -fdata-sections -std=gnu99" \
- 	LDFLAGS="$(LDFLAGS) -L$(TOP)/ncurses/lib -ffunction-sections -fdata-sections -Wl,--gc-sections" \
- 	PKG_CONFIG_PATH="$(TOP)/ncurses/misc" PKG_CONFIG_LIBDIR="$(TOP)/ncurses/misc"\
- 	$(if $(RTCONFIG_BCMARM),ac_cv_lib_ncursesw_get_wch=yes,ac_cv_lib_ncursesw_get_wch=no) \
