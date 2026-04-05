@@ -1,8 +1,13 @@
 # Building Asuswrt-Merlin [John's fork] on Artix (Arch-Linux fork)
 
----- tested with 374.43_52E7j9527 ----
+---- tested with 374.43_52E7j9527 ----  
+---- Last checked on 4/5/26 version 374.43_52E7 compiled and ran on my N66U ----
 
-It is recommended to use a bare version of Artix on wsl2/Windows or as a VM (for both approaches there is a manual in this repo) without(!!) any desktop environment and any package not needed for building process in order to keep the number of needed patches as low as possible. Any additional package, like graphical desktop environments, can make build process more complicate, as all execectables on Artix/Arch Linux are build with shared libs, which can mislead the building tools within the Asuswrt-Merlin [John's fork] sources, at worst.
+It is recommended to use a bare version of Artix on wsl2/Windows or as a VM (for both approaches there is a manual in this repo) without(!!) any desktop environment and any package not needed for building process in order to keep the number of needed patches as low as possible. Any additional package, like graphical desktop environments, can make build process more complicate, as all execectables on Artix/Arch Linux are build with shared libs, which can mislead the building tools within the Asuswrt-Merlin [John's fork] sources, at worst.  
+
+Enclosed you will find two shell scripts (for mips and arm) for setting path variables, resetting and cleaning your local asuswrt-Merlin (Johns fork) repo and removing the troublesome files (step 3.) and applying the needed patches (step 4.-8.) to your local asuswrt-Merlin (Johns fork) repo.  
+> [!TIP]
+> The easiest way is to just do step 0.-2. and then start the shell script for MIPS- or ARM-builds (Don't forget to make the script executable before!)  
 
 Following steps are needed to make build process successful:
 
@@ -18,7 +23,7 @@ Following steps are needed to make build process successful:
     
     $ cd $HOME
  
-    $ git clone https://github.com/st-ty1/Artix_Asuswrt-Merlin_John_fork Artix_asuswrt
+    $ git clone https://github.com/Minecraftboss318/Artix_Asuswrt-Merlin_John_fork Artix_asuswrt
        
 3. Remove Makefile.in in /release/src/router/wget, because GNU autotools of wget insist on automake 1.15. Without Makefile.in the actual automake version of host-OS can be used.
 
@@ -37,8 +42,10 @@ Following steps are needed to make build process successful:
 8. Host-OS has updated to autoconf version 2.70 and above. Source code of configure.in in /release/src/router/libxml2 has to be patched, as libxml2 is quite old and its input files for
     autotools are too old, so a macro in configure.in has to be deactivated (-> libxml2_configure.in.patch; supplied in this repo).
 
-Enclosed you will find two shell scripts (for mips and arm) for setting path variables, resetting and cleaning your local asuswrt-Merlin (Johns fork) repo and removing the troublesome files (step 3.) and applying the needed patches (step 4.-8.) to your local asuswrt-Merlin (Johns fork) repo. 
-So, the easiest way is to just do step 0.-2. and then start the shell script for MIPS- or ARM-builds (Don't forget to make the script executable before!)
+9. Ncurses has to be patched with the supplied patch to prevent type errors
+
+10. accel-pptpd has to be patched with the supplied patch as it needs gnu89 to compile
+
 
 Applying one of these shell scripts is only needed, if you are working with "git clean -dxf" (e.g. 1st build after cloning repo, after updating repo, ...) for cleaning sources. 
 By cleaning sources with "make clean", you can either amend the shell scripts (by commenting all the cp-, rm-, and patch-commands) or you can use make command in appropriate folder (if so, don't forget to insert path to the execs of the toolchain of your local asuswrt-Merlin (Johns fork) repo in your .bashrc or .profile).
