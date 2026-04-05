@@ -3,7 +3,7 @@
 ---- tested with 374.43_52E7j9527 ----  
 ---- Last checked on 4/5/26 version 374.43_52E7 compiled and ran on my N66U ----
 
-It is recommended to use a bare version of Artix on wsl2/Windows or as a VM (for both approaches there is a manual in this repo) without(!!) any desktop environment and any package not needed for building process in order to keep the number of needed patches as low as possible. Any additional package, like graphical desktop environments, can make build process more complicate, as all execectables on Artix/Arch Linux are build with shared libs, which can mislead the building tools within the Asuswrt-Merlin [John's fork] sources, at worst.  
+It is recommended to use a bare version of Artix on wsl2/Windows or as a VM (Both methods have instructions in this repo but only the wsl2 instructions have recently been verified to work) without(!!) any desktop environment and any package not needed for building process in order to keep the number of needed patches as low as possible. Any additional package, like graphical desktop environments, can make build process more complicate, as all execectables on Artix/Arch Linux are build with shared libs, which can mislead the building tools within the Asuswrt-Merlin [John's fork] sources, at worst.  
 
 Enclosed you will find two shell scripts (for mips and arm) for setting path variables, resetting and cleaning your local asuswrt-Merlin (Johns fork) repo and removing the troublesome files (step 3.) and applying the needed patches (step 4.-8.) to your local asuswrt-Merlin (Johns fork) repo.  
 > [!TIP]
